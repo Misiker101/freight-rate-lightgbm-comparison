@@ -1,0 +1,32 @@
+# Byte-compiled / Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+
+# Ignore everything inside these folders
+/models/*
+/report/*
+/data/*
+/scorer_results/*
+/scorer_results_hgbr/*
+
+# Model artifacts
+*.joblib
+*.pkl
+
+# IDE / OS junk
+.DS_Store
+.vscode/
+.idea/
+
+# Do not ignore the .gitkeep files inside them
+!/data/.gitkeep
+!/models/.gitkeep
+!/report/.gitkeep
+!/scorer_results/.gitkeep
+!/scorer_results_hgbr/.gitkeep
