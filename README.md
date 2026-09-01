@@ -39,9 +39,7 @@ python train_hgbr.py
 python compare_models.py   
 python predict_hgbr.py     
 cd ..
-python score.py --predictions validation_predictions_hgbr.csv \
-  --december-predictions data/december_chart_inputs_hgbr.csv \
-  --output-dir scorer_results_hgbr
+python score.py --predictions validation_predictions_hgbr.csv --december-predictions data/december_chart_inputs_hgbr.csv --output-dir scorer_results_hgbr
 ```
 
 Run `train.py` before `train_hgbr.py`/`compare_models.py` — `train_hgbr.py` imports
@@ -55,25 +53,18 @@ CSVs from disk rather than retraining anything.
 ## Layout
 
 ```
-data/            train_test.csv, validation.csv, december_chart_inputs.csv (filled by predict.py)
-models/          model.pkl (LightGBM) and model_hgbr.pkl (HGBR) — each bundles the fitted
-                 model with its fitted imputation medians, city coordinate lookup, and
-                 category levels, so predict.py / predict_hgbr.py don't need to touch
-                 train_test.csv again
-report/          validation_metrics.json, hgbr_metrics.json, model_comparison_metrics.json,
-                 feature_importance.csv, holdout_predictions.csv,
-                 lightgbm_training_curve.csv, hgbr_training_curve.csv,
-                 diagnostic charts + model_comparison_training_curve.png,
-                 and the final .docx report
+data/            
+models/          
+report/          
 src/
   preprocessing.py    weight sign fix, missing-value imputation, missing-value flags
   features.py          calendar features, city coordinate lookup, feature matrix assembly
   train.py              LightGBM: time-based split, trains + evaluates + refits
   predict.py             LightGBM inference: validation_predictions.csv + December chart
-  train_hgbr.py          HGBR: same split/eval logic as train.py, model swapped
-  predict_hgbr.py         HGBR inference: validation_predictions_hgbr.csv + December chart
-  compare_models.py       loads both training curves + metrics, plots comparison, no retraining
-score.py           provided scorer (unmodified)
+  train_hgbr.py          HGBR: 
+  predict_hgbr.py         HGBR inference:
+  compare_models.py       loads both training curves + metrics, plots comparison
+score.py           
 requirements.txt
 ```
 
