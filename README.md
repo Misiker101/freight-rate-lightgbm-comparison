@@ -24,8 +24,7 @@ python train.py            # LightGBM: cleans data, time-based split, trains, ev
                             # saves report/lightgbm_training_curve.csv
 python predict.py          # writes validation_predictions.csv, fills data/december_chart_inputs.csv
 cd ..
-python score.py --predictions validation_predictions.csv \
-  --december-predictions data/december_chart_inputs.csv
+python score.py --predictions validation_predictions.csv --december-predictions data/december_chart_inputs.csv
 ```
 
 ### HGBR comparison (optional)
@@ -36,13 +35,9 @@ LightGBM run above, same time-based Sept–Oct holdout, only the model swapped f
 
 ```bash
 cd src
-python train_hgbr.py       # trains HGBR with the same holdout, saves models/model_hgbr.pkl
-                            # and report/hgbr_training_curve.csv
-python compare_models.py   # loads both training curves + metrics (no retraining),
-                            # prints a comparison table, saves
-                            # report/model_comparison_training_curve.png
-python predict_hgbr.py     # writes validation_predictions_hgbr.csv,
-                            # writes data/december_chart_inputs_hgbr.csv
+python train_hgbr.py       
+python compare_models.py   
+python predict_hgbr.py     
 cd ..
 python score.py --predictions validation_predictions_hgbr.csv \
   --december-predictions data/december_chart_inputs_hgbr.csv \
