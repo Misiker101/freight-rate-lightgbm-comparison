@@ -67,12 +67,7 @@ def clean_dataframe(
     df: pd.DataFrame,
     reference_medians: dict[str, float] | None = None,
 ) -> tuple[pd.DataFrame, dict[str, float]]:
-    """
-    Full cleaning pass. If reference_medians is None, medians are computed
-    from this dataframe (use this for the training split). If provided,
-    those medians are reused (use this for validation/test/inference so
-    nothing about the target split leaks into imputation).
-    """
+    
     df = df.copy()
     df = fix_weight_sign(df)
     df = add_missing_flags(df, MISSING_FLAG_COLUMNS)
