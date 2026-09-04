@@ -63,22 +63,3 @@ def predict_december(artifact) -> pd.DataFrame:
     out["predicted_rate"] = preds
     return out
 
-
-def main() -> None:
-    artifact = load_artifact()
-
-    val_preds = predict_validation(artifact)
-    val_out_path = ROOT / "validation_predictions_hgbr.csv"
-    val_preds.to_csv(val_out_path, index=False)
-    print(f"Wrote {len(val_preds):,} rows to {val_out_path}")
-    print(val_preds["predicted_rate"].describe())
-
-    dec_preds = predict_december(artifact)
-    dec_out_path = DATA_DIR / "december_chart_inputs_hgbr.csv"
-    dec_preds.to_csv(dec_out_path, index=False)
-    print(f"\nWrote HGBR December predictions to {dec_out_path}")
-    print(dec_preds[["date", "predicted_rate"]].to_string(index=False))
-
-
-if __name__ == "__main__":
-    main()
