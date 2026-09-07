@@ -102,18 +102,7 @@ def main() -> None:
     # --- baseline: plain linear regression on one-hot features ---
     # Gives us a number to say "the gradient booster is meaningfully better
     # than a naive linear fit," not just a black box we trust blindly.
-    ohe = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
-    cat_train = ohe.fit_transform(X_train[feat.CATEGORICAL_COLUMNS].astype(str))
-    cat_holdout = ohe.transform(X_holdout[feat.CATEGORICAL_COLUMNS].astype(str))
-    num_cols = feat.NUMERIC_COLUMNS + feat.DATE_FEATURE_COLUMNS
-    baseline_X_train = np.hstack([cat_train, X_train[num_cols].values])
-    baseline_X_holdout = np.hstack([cat_holdout, X_holdout[num_cols].values])
-
-    baseline = LinearRegression()
-    baseline.fit(baseline_X_train, y_train)
-    baseline_pred = np.expm1(baseline.predict(baseline_X_holdout))
-    baseline_metrics = evaluate(y_holdout, baseline_pred)
-    print("Baseline (linear regression) holdout metrics:", baseline_metrics)
+    
 
     # --- main model: LightGBM gradient boosted trees ---
     # Chosen because the features are a mix of high-cardinality categoricals
