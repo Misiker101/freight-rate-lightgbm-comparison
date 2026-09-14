@@ -59,6 +59,9 @@ def impute_with_reference(
     return df
 
 
+def compute_reference_medians(df: pd.DataFrame, columns: list[str]) -> dict[str, float]:
+    return {col: float(df[col].median()) for col in columns if col in df.columns}
+
 
 def clean_dataframe(
     df: pd.DataFrame,
