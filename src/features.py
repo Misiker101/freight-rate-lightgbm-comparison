@@ -99,10 +99,7 @@ def fill_missing_coords(df: pd.DataFrame, city_coords: pd.DataFrame) -> pd.DataF
             df[lat_col] = np.nan
         if lon_col not in df.columns:
             df[lon_col] = np.nan
-        matched = df[side].map(lookup["lat"])
-        df[lat_col] = df[lat_col].fillna(matched)
-        matched_lon = df[side].map(lookup["lon"])
-        df[lon_col] = df[lon_col].fillna(matched_lon)
+        
     return df
 
 
