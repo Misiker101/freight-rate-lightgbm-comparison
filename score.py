@@ -63,38 +63,6 @@ def validate_predictions(predictions: pd.DataFrame) -> None:
         fail("predictions contains non-positive predicted_rate values")
 
 
-def validate_december(frame: pd.DataFrame) -> pd.DataFrame:
-    columns = ["pickup", "delivery", "distance", "equipment", "weight", "date", "predicted_rate"]
-    if list(frame.columns) != columns:
-        fail("December predictions must keep the original seven columns and column order")
-
-    result = frame.copy()
-    result["date"] = pd.to_datetime(result["date"], errors="coerce")
-    if result["date"].isna().any():
-        fail("December predictions contains invalid dates")
-    result["distance"] = numeric_series(result, "distance", "December predictions")
-    result["weight"] = numeric_series(result, "weight", "December predictions")
-    result["predicted_rate"] = numeric_series(result, "predicted_rate", "December predictions")
-
-    if result["date"].duplicated().any():
-        fail("December predictions contains duplicate dates")
-    if len(result) != 31 or set(result["date"]) != set(DECEMBER_DATES):
-        fail("December predictions must contain one row for every day from 2025-12-01 to 2025-12-31")
-    if not result["pickup"].eq(FIXED_PICKUP).all():
-        fail(f"December pickup must be {FIXED_PICKUP} for all rows")
-    if not result["delivery"].eq(FIXED_DELIVERY).all():
-        fail(f"December delivery must be {FIXED_DELIVERY} for all rows")
-    if not np.isclose(result["distance"], FIXED_DISTANCE).all():
-        fail(f"December distance must be {FIXED_DISTANCE:g} for all rows")
-    if not result["equipment"].eq(FIXED_EQUIPMENT).all():
-        fail(f"December equipment must be {FIXED_EQUIPMENT} for all rows")
-    if not np.isclose(result["weight"], FIXED_WEIGHT).all():
-        fail(f"December weight must be {FIXED_WEIGHT:g} for all rows")
-    if (result["predicted_rate"] <= 0).any():
-        fail("December predicted_rate values must be positive")
-    return result.sort_values("date")
-
-
 def save_december_chart(december: pd.DataFrame, output: Path) -> None:
     figure, axis = plt.subplots(figsize=(10.8, 4.8), dpi=180)
     color = "#064A56"
